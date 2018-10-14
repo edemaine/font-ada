@@ -4,21 +4,6 @@ lineKern = 40
 
 svg = null
 
-## Based on jolly.exe's code from http://stackoverflow.com/questions/901115/how-can-i-get-query-string-values-in-javascript
-getParameterByName = (name) ->
-  name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]")
-  regex = new RegExp "[\\?&]" + name + "=([^&#]*)"
-  results = regex.exec location.search
-  if results == null
-    null
-  else
-    decodeURIComponent results[1].replace(/\+/g, " ")
-
-loadState = ->
-  text = getParameterByName('text') ? 'text'
-  document.getElementById('text').value = text
-  updateText false
-
 drawLetter = (char, svg) ->
   group = svg.group()
   group.path char.path.d
@@ -83,16 +68,14 @@ resize = ->
   height = Math.max 100, window.innerHeight - offset.y
   document.getElementById('output').style.height = "#{height}px"
 
+furls = null
 window?.onload = ->
   svg = SVG 'output'
+  furls = new Furls()
+  .addInputs()
+  .on 'stateChange', updateText
 
-  updateTextSoon = (event) ->
-    setTimeout updateText, 0
-    true
-  for event in ['input', 'propertychange', 'keyup']
-    document.getElementById('text').addEventListener event, updateTextSoon
-
-  window.addEventListener 'popstate', loadState
+  window.addEventListener 'popstate', -> furls.loadURL()
   window.addEventListener 'resize', resize
-  loadState()
+  furls.loadURL()
   resize()
