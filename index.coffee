@@ -1,3 +1,4 @@
+margin = 10
 charKern = 25
 charSpace = 65
 lineKern = 45
@@ -39,8 +40,6 @@ updateText = (setUrl = true) ->
       else if char == ' '
         x += charSpace
     y += dy + lineKern
-  margin = 0.5
-  #margin = 0
   svg.viewbox
     x: -margin
     y: -margin
@@ -74,7 +73,7 @@ window?.onload = ->
   .addInputs()
   .on 'stateChange', updateText
   .syncState()
+  .loadURL()
 
   window.addEventListener 'resize', resize
-  furls.loadURL()
   resize()
