@@ -50,10 +50,16 @@ updateText = (changed) ->
   if changed.rotateU
     rotateU = if state.rotateU then 180 else 0
     for letter in letters
-      letter.path.animate(anim...).rotate rotateU
+      if @loading
+        letter.path.rotate rotateU
+      else
+        letter.path.animate(anim...).rotate rotateU
   if changed.rotateI
+    rotateI = if state.rotateI then 90 else 0
     for letter in letters
-      if state.rotateI
+      if @loading
+        letter.line.rotate rotateI
+      else if state.rotateI
         letter.line.animate(anim...).rotate 90
       else if changed.rotateI.oldValue
         letter.line.rotate(-90).animate(anim...).rotate 0
