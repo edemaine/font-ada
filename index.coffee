@@ -74,8 +74,8 @@ window?.onload = ->
   furls = new Furls()
   .addInputs()
   .on 'stateChange', updateText
+  .syncState()
 
-  window.addEventListener 'popstate', -> furls.loadURL()
   window.addEventListener 'resize', resize
   furls.loadURL()
   resize()
