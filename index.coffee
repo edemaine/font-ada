@@ -1,6 +1,6 @@
-charKern = 20
-charSpace = 60
-lineKern = 40
+charKern = 25
+charSpace = 65
+lineKern = 45
 
 svg = null
 
