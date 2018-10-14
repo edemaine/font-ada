@@ -2,7 +2,7 @@ margin = 10
 charKern = 25
 charSpace = 65
 lineKern = 45
-anim = [1000, '<>']
+animDelay = 1000
 
 svg = null
 
@@ -18,7 +18,9 @@ drawLetter = (char, svg, state) ->
   width: char.width
   height: char.height
 
+stop = ->
 letters = null
+
 updateText = (changed) ->
   state = @getState()
   if changed.text
@@ -47,22 +49,56 @@ updateText = (changed) ->
       y: -margin
       width: xmax + 2*margin
       height: y + 2*margin
-  if changed.rotateU
+  if state.anim and (state.rotateU or state.rotateI)
+    anim = ->
+      if stop
+        return stop()
+      for letter in letters
+        if state.rotateU
+          a = letter.path
+          .animate animDelay, '<'
+          .rotate 180
+          .animate animDelay, '>'
+          .rotate 0
+        if state.rotateI
+          a = letter.line
+          .animate animDelay, '<'
+          .rotate 90
+          .animate animDelay, '>'
+          .rotate 180
+          .after (e) -> @rotate 0
+      a.afterAll anim
+    go = ->
+      stop = null
+      anim()
+    if stop
+      go()
+    else
+      stop = go
+  else
+    stop = ->
     rotateU = if state.rotateU then 180 else 0
-    for letter in letters
-      if @loading
-        letter.path.rotate rotateU
-      else
-        letter.path.animate(anim...).rotate rotateU
-  if changed.rotateI
     rotateI = if state.rotateI then 90 else 0
     for letter in letters
       if @loading
+        letter.path.rotate rotateU
         letter.line.rotate rotateI
-      else if state.rotateI
-        letter.line.animate(anim...).rotate 90
-      else if changed.rotateI.oldValue
-        letter.line.rotate(-90).animate(anim...).rotate 0
+      else
+        if Math.abs(letter.path.transform().rotation) != rotateU
+          letter.path
+          .animate animDelay, '<>'
+          .rotate rotateU
+        if Math.abs(letter.line.transform().rotation) != rotateI
+          if state.rotateI
+            letter.line
+            .animate animDelay, '<>'
+            .rotate 90
+          else
+            letter.line
+            .animate animDelay, '<>'
+            .rotate 0
+            #.rotate 180
+            #.after (e) -> @rotate 0
 
 ## Based on meouw's answer on http://stackoverflow.com/questions/442404/retrieve-the-position-x-y-of-an-html-element
 getOffset = (el) ->
