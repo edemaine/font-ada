@@ -19,9 +19,8 @@ drawLetter = (char, svg, state) ->
   width: char.width
   height: char.height
 
-oldText = null
 updateText = (setUrl = true) ->
-  state = furls.getState()
+  state = @getState()
   svg.clear()
   y = 0
   xmax = 0
@@ -46,11 +45,6 @@ updateText = (setUrl = true) ->
     width: xmax + 2*margin
     height: y + 2*margin
 
-  if setUrl
-    encoded = encodeURIComponent(text).replace '%20', '+'
-    history.pushState null, 'text',
-      "#{document.location.pathname}?text=#{encoded}"
-
 ## Based on meouw's answer on http://stackoverflow.com/questions/442404/retrieve-the-position-x-y-of-an-html-element
 getOffset = (el) ->
   x = y = 0
@@ -73,7 +67,6 @@ window?.onload = ->
   .addInputs()
   .on 'stateChange', updateText
   .syncState()
-  .loadURL()
 
   window.addEventListener 'resize', resize
   resize()

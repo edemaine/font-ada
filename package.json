@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
-    "furls": "^0.0.1",
+    "furls": "^0.1.0",
     "svg.js": "^2.6.6"
   },
   "devDependencies": {},
