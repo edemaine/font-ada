@@ -4,14 +4,14 @@ lineKern = 40
 
 svg = null
 
-drawLetter = (char, svg) ->
-  state = furls.getState()
+drawLetter = (char, svg, state) ->
   group = svg.group()
   path = group.path char.path.d
   line = group.line char.line.x1, char.line.y1, char.line.x2, char.line.y2
-  if state.puzzle
+  if state.rotateU
     path.rotate 180
-    #line.rotate 90
+  if state.rotateI
+    line.rotate 90
   group: group
   x: 0
   y: 0
@@ -20,23 +20,18 @@ drawLetter = (char, svg) ->
 
 oldText = null
 updateText = (setUrl = true) ->
-  text = document.getElementById('text').value
-  return if oldText == text
-  oldText = text
-
-  news = ''
+  state = furls.getState()
   svg.clear()
-  text = text.replace('\r\n', '\r').replace('\r', '\n')
   y = 0
   xmax = 0
-  for line in text.split '\n'
+  for line in state.text.split '\n'
     x = 0
     dy = 0
     for char, c in line
       char = char.toUpperCase()
       if char of font
         x += charKern unless c == 0
-        boxgroup = drawLetter font[char], svg
+        boxgroup = drawLetter font[char], svg, state
         boxgroup.group.translate x - boxgroup.x, y - boxgroup.y
         x += boxgroup.width
         xmax = Math.max xmax, x
