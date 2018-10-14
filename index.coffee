@@ -54,9 +54,9 @@ updateText = (changed) ->
   if changed.rotateI
     for letter in letters
       if state.rotateI
-        anim = letter.line.animate(anim...).rotate 90
+        letter.line.animate(anim...).rotate 90
       else if changed.rotateI.oldValue
-        anim = letter.line.rotate(-90).animate(anim...).rotate 0
+        letter.line.rotate(-90).animate(anim...).rotate 0
 
 ## Based on meouw's answer on http://stackoverflow.com/questions/442404/retrieve-the-position-x-y-of-an-html-element
 getOffset = (el) ->
