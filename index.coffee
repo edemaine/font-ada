@@ -5,9 +5,13 @@ lineKern = 40
 svg = null
 
 drawLetter = (char, svg) ->
+  state = furls.getState()
   group = svg.group()
-  group.path char.path.d
-  group.line char.line.x1, char.line.y1, char.line.x2, char.line.y2
+  path = group.path char.path.d
+  line = group.line char.line.x1, char.line.y1, char.line.x2, char.line.y2
+  if state.puzzle
+    path.rotate 180
+    #line.rotate 90
   group: group
   x: 0
   y: 0
