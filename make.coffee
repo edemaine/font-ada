@@ -1,8 +1,8 @@
 #!/usr/bin/coffee
 fs = require 'fs'
 font = {}
-for letter in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-  filename = "drawings/#{letter}.svg"
+for letter in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.,!?'
+  filename = "drawings/#{letter}.svg".replace '?', 'question'
   svg = fs.readFileSync filename, 'utf8'
 
   match = /<style[^<>]*>([^]*?)<\/style>/.exec svg

@@ -10,11 +10,12 @@ drawLetter = (char, svg, state) ->
   group = svg.group()
   path = group.path char.path.d
   line = group.line char.line.x1, char.line.y1, char.line.x2, char.line.y2
+  y = 100 - char.height
   group: group
   path: path
   line: line
   x: 0
-  y: 0
+  y: -y
   width: char.width
   height: char.height
 
