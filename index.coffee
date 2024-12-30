@@ -4,6 +4,7 @@ window?.onload = ->
   stop = =>
   app = new FontWebappSVG
     root: '#output'
+    rootSVG: '#outputSVG'
     margin: 10
     charKern: 25
     spaceWidth: 65
@@ -84,3 +85,6 @@ window?.onload = ->
                 .transform rotate: 0
                 #.transform rotate: 180
                 #.after (e) -> @transform rotate: 0
+
+  document.getElementById 'downloadSVG'
+  .addEventListener 'click', -> app.downloadSVG 'ada.svg'

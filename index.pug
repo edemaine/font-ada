@@ -1,0 +1,92 @@
+doctype html
+html
+  head
+    title Ada Font
+    script(type="text/javascript", src="node_modules/@svgdotjs/svg.js/dist/svg.min.js")
+    script(type="text/javascript", src="node_modules/furls/furls.js")
+    script(type="text/javascript", src="node_modules/font-webapp/font-webapp.js")
+    script(type="text/javascript", src="font.js")
+    script(type="text/javascript", src="index.js")
+    script(type="text/javascript").
+      if (/[?&]hud=0/.test(window.location.search)) // avoid blinking
+        document.documentElement.classList.add('hud-false')
+    style
+      :stylus
+        .hud-false > body > *:not(#output), #hud
+          display: none
+
+        @media print
+          .noprint
+            display: none
+
+        .w-100, svg
+          width: 100%
+        .h-100, svg
+          height: 100%
+        .text-left
+          text-align: left
+        .text-right
+          text-align: right
+        .align-middle, textarea
+          vertical-align: middle
+    //#include virtual="../../analytics.html"
+  body
+    table.w-100
+      tr
+        td.text-left.align-middle
+          h1
+            a(href="./") Ada Font
+        td.text-right.align-middle
+          h2 by Ada Bienkowska, <a href="https://erikdemaine.org/">Erik Demaine</a> and <a href="https://martindemaine.org">Martin Demaine</a>, 2018
+
+    table#data.w-100.noprint
+      tr
+        td
+          label(for="text") Enter text to render: &nbsp;
+          textarea#text(rows=4, cols=40) text
+        td.text-left
+          input#rotateU(type="checkbox")
+          label(for="rotateU") Rotate U
+          br
+          input#rotateI(type="checkbox")
+          label(for="rotateI") Rotate I
+          br
+          input#anim(type="checkbox")
+          label(for="anim") Animate rotations
+          input#hud(type="checkbox", checked)
+
+    p
+
+    #output.w-100
+      svg#outputSVG
+        style
+          include:stylus ada.styl
+
+    .text-right.noprint
+      button#downloadSVG Download SVG
+      a#download
+
+    hr.noprint
+
+    p.noprint.
+      <B>Two shapes.</B> At age 3, Ada wrote both letters of her name (A and D) using two simpler symbols: a U shape and a line.  Together we designed a complete typeface where each letter, digit, and punctuation is written with exactly these two symbols, each used exactly once.  Every U shape has exactly the same proportions; the shapes are just rotated and/or scaled.
+
+    p.noprint.
+      <B>Puzzle fonts.</B> To obscure the letters and turn text into a puzzle, you can <b>rotate</b> the U shapes by 180&deg; and/or rotate the lines by 90&deg; (using the checkboxes in the top right). You can also <b>animate</b> these rotations for a surprising animation font.
+
+    p.noprint.
+      <B>Related fonts.</B>
+      <a href="http://www.gef.free.fr/">Gilles Esposito-Far&egrave;se</a>
+      independently designed in 2001 a
+      &ldquo;<a href="http://www.gef.free.fr/ambigallery.html#CPT">lipographic alphabet</a>&rdquo;
+      that uses the same two symbols (U and line),
+      furthermore maintains a consistent scale of the symbols,
+      but doesn't always use both symbols
+      (or equivalently, sometimes one symbol is shrunk to zero)
+      and has varying-height letters.
+
+    p.noprint.
+      Check out <a href="https://erikdemaine.org/fonts/">other mathematical and
+      puzzle fonts</a>. &bull; Feedback or not working?
+      <a href="mailto:edemaine+fonts@mit.edu">Email Erik</a>. &bull;
+      <a href="https://github.com/edemaine/font-tetris">Source code on GitHub</a>.
